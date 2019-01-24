@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.spongycastle.util.encoders.Hex;
 import org.tron.common.runtime.vm.LogInfo;
 import org.tron.common.runtime.vm.program.InternalTransaction;
 import org.tron.common.runtime.vm.program.ProgramResult;
@@ -190,6 +191,8 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
     builder.setReceipt(traceReceipt.getReceipt());
 
     if (Args.getInstance().isSaveInternalTx() && null != programResult.getInternalTransactions()) {
+      String txId = Hex.toHexString(trxCap.getTransactionId().getBytes());
+      logger.debug("the internal txs of {} is not null", txId);
       for (InternalTransaction internalTransaction : programResult
           .getInternalTransactions()) {
         Protocol.InternalTransaction.Builder internalTrxBuilder = Protocol.InternalTransaction
@@ -218,6 +221,9 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
         // Token for loop end here
         internalTrxBuilder.setNote(ByteString.copyFrom(internalTransaction.getNote().getBytes()));
         internalTrxBuilder.setRejected(internalTransaction.isRejected());
+        internalTrxBuilder.setDeep(internalTransaction.getDeep());
+        internalTrxBuilder.setIndex(internalTransaction.getIndex());
+
         builder.addInternalTransactions(internalTrxBuilder);
       }
     }
