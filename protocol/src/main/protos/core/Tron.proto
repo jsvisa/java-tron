@@ -523,6 +523,8 @@ message InternalTransaction {
   repeated CallValueInfo callValueInfo = 4;
   bytes note = 5;
   bool rejected = 6;
+  int32 deep = 7;
+  int32 index = 8;
 }
 
 message DelegatedResourceAccountIndex {
