@@ -191,8 +191,11 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
     builder.setReceipt(traceReceipt.getReceipt());
 
     if (Args.getInstance().isSaveInternalTx() && null != programResult.getInternalTransactions()) {
-      String txId = Hex.toHexString(trxCap.getTransactionId().getBytes());
-      logger.debug("the internal txs of {} is not null", txId);
+      int size = programResult.getInternalTransactions().size();
+      if (size > 0) {
+        String txId = Hex.toHexString(trxCap.getTransactionId().getBytes());
+        logger.info("the internal txs of {} is {}", txId, size);
+      }
       for (InternalTransaction internalTransaction : programResult
           .getInternalTransactions()) {
         Protocol.InternalTransaction.Builder internalTrxBuilder = Protocol.InternalTransaction
@@ -223,6 +226,7 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
         internalTrxBuilder.setRejected(internalTransaction.isRejected());
         internalTrxBuilder.setDeep(internalTransaction.getDeep());
         internalTrxBuilder.setIndex(internalTransaction.getIndex());
+        internalTrxBuilder.setNonce(internalTransaction.getNonce());
 
         builder.addInternalTransactions(internalTrxBuilder);
       }
