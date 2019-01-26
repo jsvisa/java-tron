@@ -525,6 +525,7 @@ message InternalTransaction {
   bool rejected = 6;
   int32 deep = 7;
   int32 index = 8;
+  int64 nonce = 9;
 }
 
 message DelegatedResourceAccountIndex {
