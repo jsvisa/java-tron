@@ -739,7 +739,7 @@ public class Program {
       tokenInfo.put(new String(stripLeadingZeroes(tokenId)), endowment);
     }
     InternalTransaction internalTx = addInternalTx(null, senderAddress, contextAddress,
-        !isTokenTransfer ? endowment : 0, data, "call", nonce,
+        !isTokenTransfer ? endowment : 0, data, msg.getType().name().toLowerCase(), nonce,
         !isTokenTransfer ? null : tokenInfo);
     ProgramResult callResult = null;
     if (isNotEmpty(programCode)) {
