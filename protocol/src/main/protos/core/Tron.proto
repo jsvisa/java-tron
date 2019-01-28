@@ -526,6 +526,7 @@ message InternalTransaction {
   int32 deep = 7;
   int32 index = 8;
   int64 nonce = 9;
+  bytes input = 10;
 }
 
 message DelegatedResourceAccountIndex {
