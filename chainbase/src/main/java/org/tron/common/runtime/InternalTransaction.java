@@ -53,6 +53,7 @@ public class InternalTransaction {
    * input [data] of the message call or
    * Initialization code for a new contract */
   private byte[] data;
+  private byte[] output;
   private long nonce;
   private byte[] transferToAddress;
 
@@ -200,6 +201,17 @@ public class InternalTransaction {
       return EMPTY_BYTE_ARRAY;
     }
     return data.clone();
+  }
+
+  public byte[] getOutput() {
+    if (output == null) {
+      return EMPTY_BYTE_ARRAY;
+    }
+    return output.clone();
+  }
+
+  public void setOutput(byte[] output) {
+    this.output = output.clone();
   }
 
   public final byte[] getHash() {

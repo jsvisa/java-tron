@@ -226,6 +226,7 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
         internalTrxBuilder.setIndex(internalTransaction.getIndex());
         internalTrxBuilder.setNonce(internalTransaction.getNonce());
         internalTrxBuilder.setInput(ByteString.copyFrom(internalTransaction.getData()));
+        internalTrxBuilder.setOutput(ByteString.copyFrom(internalTransaction.getOutput()));
 
         builder.addInternalTransactions(internalTrxBuilder);
       }
