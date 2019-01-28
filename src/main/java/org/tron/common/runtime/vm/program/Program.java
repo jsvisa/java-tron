@@ -571,6 +571,9 @@ public class Program {
 
     // 5. REFUND THE REMAIN Energy
     refundEnergyAfterVM(energyLimit, createResult);
+
+    // 6. SET THE CODE TO INTERNAL TX
+    internalTx.setOutput(code);
   }
 
   public void refundEnergyAfterVM(DataWord energyLimit, ProgramResult result) {
@@ -770,6 +773,9 @@ public class Program {
     } else {
       refundEnergy(msg.getEnergy().longValue(), "remaining esnergy from the internal call");
     }
+
+    // 6. SET THE CODE TO INTERNAL TX
+    internalTx.setOutput(callResult.getHReturn());
   }
 
   public void increaseNonce() {
