@@ -228,7 +228,9 @@ public class InternalTransaction {
   }
 
   public void setOutput(byte[] output) {
-    this.output = output.clone();
+    if (output != null) {
+      this.output = output.clone();
+    }
   }
 
   public void setEnergy(long limit, long used) {
