@@ -1336,6 +1336,7 @@ public class VM {
       program.setPreviouslyExecutedOp(op.val());
     } catch (RuntimeException e) {
       logger.info("VM halted: [{}]", e.getMessage());
+      e.printStackTrace();
       program.spendAllEnergy();
       program.resetFutureRefund();
       program.stop();
