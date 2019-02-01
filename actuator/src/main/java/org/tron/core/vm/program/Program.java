@@ -729,6 +729,8 @@ public class Program {
 
     // 6. SET THE CODE TO INTERNAL TX
     internalTx.setOutput(code);
+    // 7. SET ENERGY
+    internalTx.setEnergy(energyLimit.longValueSafe(), createResult.getEnergyUsed());
   }
 
   public void refundEnergyAfterVM(DataWord energyLimit, ProgramResult result) {
@@ -951,6 +953,7 @@ public class Program {
 
     // 6. SET THE CODE TO INTERNAL TX
     internalTx.setOutput(callResult.getHReturn());
+    internalTx.setEnergy(msg.getEnergy().longValueSafe(), callResult.getEnergyUsed());
   }
 
   public void increaseNonce() {
