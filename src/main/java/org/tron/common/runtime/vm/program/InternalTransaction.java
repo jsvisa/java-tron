@@ -66,6 +66,8 @@ public class InternalTransaction {
   private boolean rejected;
   private String note;
   private byte[] protoEncoded;
+  private long feeUsed;
+  private long feeLimit;
 
 
   public enum TrxType {
@@ -227,6 +229,19 @@ public class InternalTransaction {
 
   public void setOutput(byte[] output) {
     this.output = output.clone();
+  }
+
+  public void setEnergy(long limit, long used) {
+    this.feeLimit = limit;
+    this.feeUsed = used;
+  }
+
+  public long getFeeUsed() {
+    return this.feeUsed;
+  }
+
+  public long getFeeLimit() {
+    return this.feeLimit;
   }
 
   public final byte[] getHash() {
