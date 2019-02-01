@@ -605,6 +605,7 @@ public class Program {
 
     // 6. SET THE CODE TO INTERNAL TX
     internalTx.setOutput(code);
+
     // 7. SET ENERGY
     internalTx.setEnergy(energyLimit.longValueSafe(), createResult.getEnergyUsed());
   }
@@ -820,13 +821,18 @@ public class Program {
               refundEnergy.toString());
         }
       }
+
+      // 6. SET THE CODE TO INTERNAL TX
+      internalTx.setOutput(callResult.getHReturn());
+
+      // 7. SET ENERGY
+      internalTx.setEnergy(msg.getEnergy().longValueSafe(), callResult.getEnergyUsed());
     } else {
       refundEnergy(msg.getEnergy().longValue(), "remaining esnergy from the internal call");
-    }
 
-    // 6. SET THE CODE TO INTERNAL TX
-    internalTx.setOutput(callResult.getHReturn());
-    internalTx.setEnergy(msg.getEnergy().longValueSafe(), callResult.getEnergyUsed());
+      // 7. SET ENERGY
+      internalTx.setEnergy(msg.getEnergy().longValueSafe(), 0);
+    }
   }
 
   public void increaseNonce() {
