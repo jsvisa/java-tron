@@ -577,6 +577,7 @@ message InternalTransaction {
   bytes output = 11;
   int64 feeLimit = 12;
   int64 feeUsed = 13;
+  bytes error = 14;
 }
 
 message DelegatedResourceAccountIndex {

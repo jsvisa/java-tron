@@ -581,7 +581,7 @@ public class Program {
           Hex.toHexString(newAddress),
           createResult.getException());
 
-      internalTx.reject();
+      internalTx.reject(createResult.getException(), createResult.isRevert());
       createResult.rejectInternalTransactions();
 
       stackPushZero();
@@ -776,7 +776,7 @@ public class Program {
             Hex.toHexString(contextAddress),
             callResult.getException());
 
-        internalTx.reject();
+        internalTx.reject(callResult.getException(), callResult.isRevert());
         callResult.rejectInternalTransactions();
 
         stackPushZero();
