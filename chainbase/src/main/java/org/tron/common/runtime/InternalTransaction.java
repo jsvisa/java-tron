@@ -21,6 +21,7 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.tron.common.utils.ByteUtil.EMPTY_BYTE_ARRAY;
 
 import com.google.common.primitives.Longs;
+import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,17 @@ import org.tron.core.exception.ContractValidateException;
 import org.tron.protos.Protocol.Transaction;
 import org.tron.protos.contract.SmartContractOuterClass.CreateSmartContract;
 import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
+
+import org.springframework.util.StringUtils;
+import org.tron.common.runtime.vm.program.Program.BadJumpDestinationException;
+import org.tron.common.runtime.vm.program.Program.IllegalOperationException;
+import org.tron.common.runtime.vm.program.Program.JVMStackOverFlowException;
+import org.tron.common.runtime.vm.program.Program.OutOfEnergyException;
+import org.tron.common.runtime.vm.program.Program.OutOfMemoryException;
+import org.tron.common.runtime.vm.program.Program.OutOfTimeException;
+import org.tron.common.runtime.vm.program.Program.PrecompiledContractException;
+import org.tron.common.runtime.vm.program.Program.StackTooLargeException;
+import org.tron.common.runtime.vm.program.Program.StackTooSmallException;
 
 public class InternalTransaction {
 
@@ -68,6 +80,8 @@ public class InternalTransaction {
   private byte[] protoEncoded;
   private long feeUsed;
   private long feeLimit;
+  @Getter
+  private String error;
 
 
   /**
@@ -156,6 +170,39 @@ public class InternalTransaction {
 
   public void reject() {
     this.rejected = true;
+  }
+
+  public void reject(RuntimeException exception, boolean isReverted) {
+    this.reject();
+
+    if (Objects.isNull(exception) && !isReverted) {
+      this.error = "SUCCESS";
+      return;
+    }
+
+    if (isReverted) {
+      this.error = "REVERT";
+    } else if (exception instanceof IllegalOperationException) {
+      this.error = "ILLEGAL_OPERATION";
+    } else if (exception instanceof OutOfEnergyException) {
+      this.error = "OUT_OF_ENERGY";
+    } else if (exception instanceof BadJumpDestinationException) {
+      this.error = "BAD_JUMP_DESTINATION";
+    } else if (exception instanceof OutOfTimeException) {
+      this.error = "OUT_OF_TIME";
+    } else if (exception instanceof OutOfMemoryException) {
+      this.error = "OUT_OF_MEMORY";
+    } else if (exception instanceof PrecompiledContractException) {
+      this.error = "PRECOMPILED_CONTRACT";
+    } else if (exception instanceof StackTooSmallException) {
+      this.error = "STACK_TOO_SMALL";
+    } else if (exception instanceof StackTooLargeException) {
+      this.error = "STACK_TOO_LARGE";
+    } else if (exception instanceof JVMStackOverFlowException) {
+      this.error = "JVM_STACK_OVER_FLOW";
+    } else {
+      this.error = "UNKNOWN";
+    }
   }
 
   public boolean isRejected() {

@@ -229,6 +229,7 @@ public class TransactionInfoCapsule implements ProtoCapsule<TransactionInfo> {
         internalTrxBuilder.setOutput(ByteString.copyFrom(internalTransaction.getOutput()));
         internalTrxBuilder.setFeeLimit(internalTransaction.getFeeLimit());
         internalTrxBuilder.setFeeUsed(internalTransaction.getFeeUsed());
+        internalTrxBuilder.setError(ByteString.copyFrom(internalTransaction.getError().getBytes()));
 
         builder.addInternalTransactions(internalTrxBuilder);
       }
