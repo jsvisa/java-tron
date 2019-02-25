@@ -80,7 +80,6 @@ public class InternalTransaction {
   private byte[] protoEncoded;
   private long feeUsed;
   private long feeLimit;
-  @Getter
   private String error;
 
 
@@ -229,6 +228,13 @@ public class InternalTransaction {
       return "";
     }
     return note;
+  }
+
+  public String getError() {
+	if (error == null) {
+		return "";
+	}
+	return error;
   }
 
   public Map<String, Long> getTokenInfo() {
