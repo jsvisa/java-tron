@@ -596,6 +596,7 @@ public class RuntimeImpl implements Runtime {
         transferToken(this.deposit, callerAddress, contractAddress, String.valueOf(tokenId),tokenValue);
       }
     }
+		logger.info("after call");
 
   }
 
@@ -618,6 +619,9 @@ public class RuntimeImpl implements Runtime {
         result = program.getResult();
 
         if (isCallConstant()) {
+					logger.info("call constant");
+        	byte[] code = program.getResult().getHReturn();
+					logger.info("result code is {}", code);
           long callValue = TransactionCapsule.getCallValue(trx.getRawData().getContract(0));
           long callTokenValue = TransactionCapsule
             .getCallTokenValue(trx.getRawData().getContract(0));
@@ -697,6 +701,8 @@ public class RuntimeImpl implements Runtime {
       }
       logger.info("runtime result is :{}", result.getException().getMessage());
     }
+    logger.info("after execute ..............................");
+    logger.info("after execute :{}", result.getHReturn());
     trace.setBill(result.getEnergyUsed());
   }
 

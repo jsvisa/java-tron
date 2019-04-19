@@ -83,6 +83,7 @@ public class VM {
       if (op == null) {
         throw Program.Exception.invalidOpCode(program.getCurrentOp());
       }
+			logger.info("current op is {}", op);
 
       // hard fork for 3.2
       if (!VMConfig.allowTvmTransferTrc10()) {
@@ -282,6 +283,7 @@ public class VM {
          * Stop and Arithmetic Operations
          */
         case STOP: {
+				  logger.info("STOP is invoked");
           program.setHReturn(EMPTY_BYTE_ARRAY);
           program.stop();
         }
